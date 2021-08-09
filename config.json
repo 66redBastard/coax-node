@@ -1,0 +1,3 @@
+{
+  "connectionString": "mongodb+srv://dbAdmin:1QhJAkPCqk5xzV7X@cluster0.zfol0.mongodb.net/PIZZA?retryWrites=true&w=majority"
+}
