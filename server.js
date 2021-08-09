@@ -3,7 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const mongoDB = require("./middleware/db");
+const mongoDB = require("./config/db");
 // const Pizza = require("./models/Pizza");
 
 app.use(cors());
