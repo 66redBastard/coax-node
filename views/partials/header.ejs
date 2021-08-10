@@ -11,23 +11,20 @@
 		rel="stylesheet"
 		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 		crossorigin="anonymous">
-	<link rel="stylesheet" href="/style.css" type="css">
+	<link href="/style.css" rel="stylesheet" type="css">
 </head>
 
 <body>
 	<header>
-		<nav>
+		<nav class="mx-auto" style="width: 420px">
 			<h1><a href="/">Coax Bootcamp</a></h1>
-			<ul>
-				<li class="mt-1">
-					<a href="/signup" type="button" class="btn btn-primary">SignUp</a>
-				</li>
-				<li class="mt-1"><a href="/login" type="button"
-						class="btn btn-primary">Log in</a>
-				</li>
-				<li class="mt-1"><a href="/logout" type="button"
-						class="btn btn-danger">Log out</a>
-				</li>
+			<div>
+				<a href="/signup" type="button" class="btn btn-primary mt-1">SignUp</a>
+
+				<a href="/login" type="button" class="btn btn-success mt-1">Log in</a>
+
+				<a href="/logout" type="button" class="btn btn-danger mt-1">Log out</a>
+			</div>
 			</ul>
 		</nav>
 	</header>

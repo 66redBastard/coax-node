@@ -7,7 +7,8 @@ const mongoDB = require("./config/db");
 const multer = require("multer");
 const upload = multer();
 const AWS = require("aws-sdk");
-const authRoutes = require("./routes/user.controller");
+// const authRoutes = require("./routes/user.controller");
+const authRoutes = require("./routes/auth.routes");
 
 app.use(cors());
 app.use(express.json()); // Used to parse JSON bodies. Body parser is deprecated
@@ -23,7 +24,8 @@ app.get("/", (req, res) => {
   res.end(console.log("render home"));
 });
 
-app.use("/routes", authRoutes);
+// app.use("/routes", authRoutes);
+app.use(authRoutes);
 
 // server
 const port =
