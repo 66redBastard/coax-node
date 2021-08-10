@@ -1,5 +1,6 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
+const userModel = require("../models/User");
 const connectionOptions = {
   useCreateIndex: true,
   useNewUrlParser: true,
@@ -7,14 +8,18 @@ const connectionOptions = {
 };
 const mongoUrl = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.furej.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
-const mongoDB = mongoose.connect(mongoUrl, connectionOptions);
+mongoose.connect(mongoUrl, connectionOptions);
 
 mongoose.connection.on("error", function (error) {
   console.log(error);
+  console.error(error);
+  process.exit(1);
 });
 
 mongoose.connection.on("open", function () {
   console.log("Connected to MongoDB database.");
 });
 
-module.exports = mongoDB;
+module.exports = {
+  User: userModel,
+};
