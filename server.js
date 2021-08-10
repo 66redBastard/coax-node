@@ -12,7 +12,7 @@ const authRoutes = require("./routes/user.controller");
 app.use(cors());
 app.use(express.json()); // Used to parse JSON bodies. Body parser is deprecated
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
-app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
 
 // View engine
 app.set("view engine", "ejs");
