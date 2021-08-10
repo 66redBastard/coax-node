@@ -5,6 +5,11 @@ const app = express();
 const cors = require("cors");
 const mongoDB = require("./config/db");
 // const Pizza = require("./models/Pizza");
+const User = require("./models/User");
+const multer = require("multer");
+const upload = multer();
+const AWS = require("aws-sdk");
+const routes = require("./routes/routes");
 
 app.use(cors());
 app.use(express.json()); //Used to parse JSON bodies. Body parser is deprecated
