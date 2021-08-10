@@ -7,19 +7,23 @@ const mongoDB = require("./config/db");
 const multer = require("multer");
 const upload = multer();
 const AWS = require("aws-sdk");
-const routesUsers = require("./routes/user.controller");
+const authRoutes = require("./routes/user.controller");
 
 app.use(cors());
-app.use(express.json()); //Used to parse JSON bodies. Body parser is deprecated
-app.use(express.urlencoded({ extended: true })); //Parse URL-encoded bodies
+app.use(express.json()); // Used to parse JSON bodies. Body parser is deprecated
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+app.use(express.static("public"));
+
+// View engine
+app.set("view engine", "ejs");
 
 // api routes
 app.get("/", (req, res) => {
-  res.send({ message: "Hello WWW!" });
-  res.end(console.log("get req end"));
+  res.render("home");
+  res.end(console.log("render home"));
 });
 
-app.use("/routes", routesUsers);
+app.use("/routes", authRoutes);
 
 // server
 const port =
