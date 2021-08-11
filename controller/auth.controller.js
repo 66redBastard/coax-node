@@ -111,7 +111,11 @@ module.exports.loginPost = async (req, res) => {
       // save user token
       user.token = token;
       // user
-      return res.status(200).json(user);
+
+      return res
+        .cookie("jwt", token, { maxAge: 1000 * 60 * 60 })
+        .status(200)
+        .json(user);
     }
     return res.status(400).send("Invalid Credentials");
   } catch (err) {

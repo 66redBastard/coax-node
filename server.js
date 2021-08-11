@@ -1,5 +1,6 @@
 require("rootpath")();
 require("dotenv").config();
+
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -7,12 +8,13 @@ const mongoDB = require("./config/db");
 const multer = require("multer");
 const upload = multer();
 const AWS = require("aws-sdk");
-// const authRoutes = require("./routes/user.controller");
 const authRoutes = require("./routes/auth.routes");
 const verifyToken = require("./middleware/auth");
+const cookieParser = require("cookie-parser");
 
 app.use(cors());
 app.use(express.json()); // Used to parse JSON bodies. Body parser is deprecated
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use(express.static(__dirname + "/public"));
 
@@ -25,7 +27,6 @@ app.get("/", (req, res) => {
   res.end(console.log("render home"));
 });
 app.get("/profile", verifyToken, (req, res) => res.render("profile"));
-// app.use("/routes", authRoutes);
 app.use(authRoutes);
 
 // server
