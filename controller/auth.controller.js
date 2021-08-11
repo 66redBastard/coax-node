@@ -90,7 +90,37 @@ module.exports.signupPost = async (req, res) => {
   }
 };
 
-// actions
-module.exports.loginPost = (req, res) => {
-  res.status(200).send("signup");
+module.exports.loginPost = async (req, res) => {
+  try {
+    // Get user input
+    const { email, password } = req.body;
+
+    // Validate user input
+    if (!(email && password)) {
+      return res.status(400).send("All input is required");
+    }
+    // Validate if user exist in our database
+    const user = await User.findOne({ email });
+
+    if (user && (await bcrypt.compare(password, user.password))) {
+      // Create token
+      const token = jwt.sign({ user_id: user._id, email }, secretToken, {
+        expiresIn: "6h",
+      });
+
+      // save user token
+      user.token = token;
+      // user
+      return res.status(200).json(user);
+    }
+    return res.status(400).send("Invalid Credentials");
+  } catch (err) {
+    const errors = handleErrors(err);
+    res.status(400).json({ errors });
+  }
+};
+
+module.exports.logoutGet = (req, res) => {
+  res.cookie("jwt", "", { expiresIn: 1 });
+  res.redirect("/");
 };
