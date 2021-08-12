@@ -7,9 +7,13 @@ const fileSchema = new mongoose.Schema({
   },
   name: {
     type: String,
-    required: [true, "Uploaded file must have a name"],
+    required: [true, "must have a name"],
   },
-  filePath: { type: String },
+  filePath: { type: Array },
+  user: {
+    type: mongoose.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 const File = mongoose.model("File", fileSchema);

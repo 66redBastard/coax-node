@@ -20,11 +20,11 @@ uploadRoutes.post("/uploadFile", upload.single("myFile"), (req, res) => {
       });
     }
 
-    let update = { profilePicture: req.file.location };
+    // let update = { profilePicture: req.file.location };
 
-    User.findByIdAndUpdate(uid, update, { new: true })
-      .then((user) => res.status(200).json({ success: true, user: user }))
-      .catch((err) => res.status(400).json({ success: false, error: err }));
+    // User.findByIdAndUpdate(uid, update, { new: true })
+    //   .then((user) => res.status(200).json({ success: true, user: user }))
+    //   .catch((err) => res.status(400).json({ success: false, error: err }));
   });
 });
 
