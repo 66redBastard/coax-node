@@ -1,35 +1,26 @@
 const { Router } = require("express");
-const upload = require("../controller/upload.controller");
-const singleUpload = upload.single("image");
+const multer = require("multer");
+// const upload = multer({ dest: "../public/files" });
+const upload = multer();
+const jwt = require("jsonwebtoken");
+const secretToken = process.env.JWT_SECRET;
+
+// const upload = require("../controller/upload.controller");
 
 const uploadRoutes = Router();
 
-uploadRoutes.post("/uploadFile", upload.single("myFile"), (req, res) => {
+uploadRoutes.post("/uploadFile", upload.single("uploadFile"), (req, res) => {
+  //   console.log(req.user); TODO: WHY dis NOT WORKIN
   console.log(req.file);
-  const uid = req.params.id;
+  const token = req.headers.cookie.substring(4);
+  const decodedToken = jwt.verify(token, secretToken);
+  console.log("decoded", decodedToken);
 
-  singleUpload(req, res, function (err) {
-    if (err) {
-      return res.json({
-        success: false,
-        errors: {
-          title: "Image Upload Error",
-          detail: err.message,
-          error: err,
-        },
-      });
-    }
-
-    // let update = { profilePicture: req.file.location };
-
-    // User.findByIdAndUpdate(uid, update, { new: true })
-    //   .then((user) => res.status(200).json({ success: true, user: user }))
-    //   .catch((err) => res.status(400).json({ success: false, error: err }));
-  });
+  return res.status(200);
 });
 
-uploadRoutes.post("/uploadFile", upload.multiple("myFiles"), (req, res) => {
-  console.log(req.file);
-});
+// uploadRoutes.post("/uploadFile", upload.multiple("uploadFile"), (req, res) => {
+//   console.log(req.file);
+// });
 
 module.exports = uploadRoutes;

@@ -9,6 +9,7 @@ const verifyToken = (req, res, next) => {
     req.headers["x-access-token"];
 
   if (!token) {
+    console.log("no token", token);
     return res.status(403).send("A token is required for authentication");
   }
   try {

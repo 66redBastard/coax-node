@@ -10,18 +10,19 @@
 			<a href="/library">View my files</a>
 		</nav>
 		<form id="uploadForm" class="form-contaier" method="post"
-			enctype="multipart/form-data" action="/upload">
+			enctype="multipart/form-data" action="/uploadFile">
 			<div class="mb-3">
 				<label for="formFile" class="form-label">Default file input
 					example</label>
 				<input id="formFile" class="form-control" type="file" name="uploadFile">
 			</div>
-			<div class="mb-3">
+			<!-- <div class="mb-3">
 				<label for="formFileMultiple" class="form-label">Multiple files input
 					example</label>
 				<input class="form-control" type="file" id="formFileMultiple"
 					name="myFiles" multiple>
-			</div>
+			</div> -->
+			<button type="submit" class="btn btn-primary mt-1">Submit</button>
 		</form>
 
 	</main>

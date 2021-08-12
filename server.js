@@ -25,8 +25,10 @@ app.get("/", (req, res) => {
   res.render("home");
   res.end(console.log("render home"));
 });
+
 app.get("/profile", verifyToken, (req, res) => res.render("profile"));
 app.get("/library", verifyToken, (req, res) => res.render("library"));
+app.get("/uploadFile", verifyToken, (req, res) => res.render("library"));
 app.use(authRoutes);
 app.use(uploadRoutes);
 
