@@ -5,9 +5,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoDB = require("./config/db");
-const multer = require("multer");
-const upload = multer();
-const AWS = require("aws-sdk");
+
 const authRoutes = require("./routes/auth.routes");
 const verifyToken = require("./middleware/auth");
 const cookieParser = require("cookie-parser");
@@ -27,6 +25,7 @@ app.get("/", (req, res) => {
   res.end(console.log("render home"));
 });
 app.get("/profile", verifyToken, (req, res) => res.render("profile"));
+app.get("/library", verifyToken, (req, res) => res.render("library"));
 app.use(authRoutes);
 
 // server

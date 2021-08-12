@@ -3,9 +3,27 @@
 	<main class="mx-auto mt-5" style="width: 420px">
 		<div class="headings">
 			<h2>
-				profile
+				Profile
 			</h2>
 		</div>
+		<nav>
+			<a href="/library">View my files</a>
+		</nav>
+		<form id="uploadForm" class="form-contaier" method="post"
+			enctype="multipart/form-data" action="/upload">
+			<div class="mb-3">
+				<label for="formFile" class="form-label">Default file input
+					example</label>
+				<input id="formFile" class="form-control" type="file" name="uploadFile">
+			</div>
+			<div class="mb-3">
+				<label for="formFileMultiple" class="form-label">Multiple files input
+					example</label>
+				<input class="form-control" type="file" id="formFileMultiple"
+					name="myFiles" multiple>
+			</div>
+		</form>
+
 	</main>
 
 
