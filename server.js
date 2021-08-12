@@ -7,6 +7,7 @@ const cors = require("cors");
 const mongoDB = require("./config/db");
 
 const authRoutes = require("./routes/auth.routes");
+const uploadRoutes = require("./routes/upload.routes");
 const verifyToken = require("./middleware/auth");
 const cookieParser = require("cookie-parser");
 
@@ -27,6 +28,7 @@ app.get("/", (req, res) => {
 app.get("/profile", verifyToken, (req, res) => res.render("profile"));
 app.get("/library", verifyToken, (req, res) => res.render("library"));
 app.use(authRoutes);
+app.use(uploadRoutes);
 
 // server
 const port =
