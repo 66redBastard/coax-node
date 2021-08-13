@@ -10,8 +10,8 @@ const aws = require("aws-sdk");
 
 aws.config.update({
   apiVersion: "2006-03-01",
-  secretAccessKey: process.env.AWS_ACCESS_KEY,
-  accessKeyId: process.env.AWS_SECRET_KEY,
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_KEY,
   region: process.env.AWS_REGION,
 });
 const s3 = new aws.S3();
@@ -36,9 +36,9 @@ uploadRoutes.post(
     };
 
     try {
-      const result = await s3.upload(uploadParams);
+      const result = await s3.upload(uploadParams).promise();
       console.log(JSON.stringify(result));
-      return res.status(200).json({ success: "sucks" });
+      return res.status(200).render("library");
     } catch (err) {
       console.log(err);
       return res.status(400).json({ err });
