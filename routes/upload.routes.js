@@ -36,9 +36,9 @@ uploadRoutes.post(
     };
 
     try {
-      console.log();
-      const result = await s3.upload(uploadParams).promise();
-      return res.status(200).json({ result });
+      const result = await s3.upload(uploadParams);
+      console.log(JSON.stringify(result));
+      return res.status(200).json({ success: "sucks" });
     } catch (err) {
       console.log(err);
       return res.status(400).json({ err });
