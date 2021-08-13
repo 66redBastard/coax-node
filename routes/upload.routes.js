@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const secretToken = process.env.JWT_SECRET;
 const fs = require("fs");
 const aws = require("aws-sdk");
+const File = require("../models/File");
 
 aws.config.update({
   apiVersion: "2006-03-01",
@@ -37,7 +38,24 @@ uploadRoutes.post(
 
     try {
       const result = await s3.upload(uploadParams).promise();
-      console.log(JSON.stringify(result));
+      console.log(result);
+
+      // const userFiles = await File.findOne({ user });
+      await File.create({
+        name: decodedToken.email,
+        filePath: [result.Location],
+        user: decodedToken.user_id,
+      });
+
+      // if (!userFiles) {
+
+      // } else {
+      //   File.updateOne(
+      //     { user: decodedToken.user_id },
+      //     { $push: { filePath: result.file.Location } }
+      //   );
+      // }
+
       return res.status(200).render("library");
     } catch (err) {
       console.log(err);
