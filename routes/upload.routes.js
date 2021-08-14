@@ -51,7 +51,7 @@ uploadRoutes.post(
           filesNames: [req.file.originalname],
           user: userData.user_id,
         });
-        const filesCollection = userFiles;
+        const filesCollection = await File.findOne({ user: userData.user_id });
         return res.status(200).render("library", {
           collection: filesCollection,
         });
@@ -65,7 +65,7 @@ uploadRoutes.post(
             },
           }
         );
-        const filesCollection = userFiles;
+        const filesCollection = await File.findOne({ user: userData.user_id });
         console.log("show collection: ", filesCollection);
         return res.status(200).render("library", {
           collection: filesCollection,
