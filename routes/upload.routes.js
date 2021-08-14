@@ -1,8 +1,6 @@
-require("dotenv").config();
 const { Router } = require("express");
 const multer = require("multer");
 const upload = multer({ dest: "../public/files" });
-// const upload = multer();
 const jwt = require("jsonwebtoken");
 const secretToken = process.env.JWT_SECRET;
 const fs = require("fs");
@@ -19,17 +17,21 @@ const s3 = new aws.S3();
 
 const uploadRoutes = Router();
 
+const getUserData = (req) => {
+  const token = req.headers.cookie.substring(4);
+  const decodedToken = jwt.verify(token, secretToken);
+  console.log("decoded", decodedToken);
+  return decodedToken;
+};
+
 uploadRoutes.post(
   "/uploadFile",
   upload.single("uploadFile"),
   async (req, res) => {
     //   console.log(req.user); TODO: WHY dis NOT WORKIN
     console.log(req.file);
-    const token = req.headers.cookie.substring(4);
-    const decodedToken = jwt.verify(token, secretToken);
-    console.log("decoded", decodedToken);
+    const userData = getUserData(req);
     const fileSream = fs.createReadStream(req.file.path);
-
     const uploadParams = {
       Bucket: process.env.AWS_BUCKET,
       Body: fileSream,
@@ -40,21 +42,34 @@ uploadRoutes.post(
       const result = await s3.upload(uploadParams).promise();
       console.log(result);
 
-      const userFiles = await File.findOne({ user: decodedToken.user_id });
+      const userFiles = await File.findOne({ user: userData.user_id });
 
       if (!userFiles) {
         const uploadFirstFile = await File.create({
-          name: decodedToken.email,
+          name: userData.email,
           filePath: [result.Location],
-          user: decodedToken.user_id,
+          filesNames: [req.file.originalname],
+          user: userData.user_id,
         });
-        return res.status(200).render("library");
+        const filesCollection = userFiles;
+        return res.status(200).render("library", {
+          collection: filesCollection,
+        });
       } else {
         const uploadAnotherFile = await File.updateOne(
-          { user: decodedToken.user_id },
-          { $push: { filePath: result.Location } }
+          { user: userData.user_id },
+          {
+            $push: {
+              filePath: result.Location,
+              filesNames: req.file.originalname,
+            },
+          }
         );
-        return res.status(200).render("library");
+        const filesCollection = userFiles;
+        console.log("show collection: ", filesCollection);
+        return res.status(200).render("library", {
+          collection: filesCollection,
+        });
       }
     } catch (err) {
       console.log(err);
@@ -62,6 +77,11 @@ uploadRoutes.post(
     }
   }
 );
+
+uploadRoutes.get("/uploadFile", async (req, res) => {
+  const userData = getUserData(req);
+  const filesCollection = await File.findOne({ user: userData.user_id });
+});
 
 // uploadRoutes.post("/uploadFile", upload.multiple("uploadFile"), (req, res) => {
 //   console.log(req.file);
