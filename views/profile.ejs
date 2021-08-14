@@ -9,6 +9,7 @@
 		<nav>
 			<a href="/library">View my files</a>
 		</nav>
+		<h3 class="mt-5">Upload File</h3>
 		<form id="uploadForm" class="form-contaier" method="post"
 			enctype="multipart/form-data" action="/uploadFile">
 			<div class="mb-3">
@@ -24,6 +25,65 @@
 			</div> -->
 			<button type="submit" class="btn btn-primary mt-1">Submit</button>
 		</form>
+		<h3 class="mt-5">Invite Some Dude</h3>
+
+		<form id="formInvite" action="/send" method="post">
+			<div class="mb-3">
+				<label for="emailAdress" class="form-label">Email
+					address</label>
+				<input type="email" class="form-control" id="emailAdress"
+					placeholder="name@example.com">
+				<div class="sendEmail error"></div>
+			</div>
+			<div class="mb-3">
+				<label for="userMessage" class="form-label">Your
+					message</label>
+				<textarea type="textarea" class="form-control" id="userMessage"
+					rows="3"></textarea>
+			</div>
+			<button type="submit" class="btn btn-primary">Invite</button>
+		</form>
+
+		<script>
+			const emailForm = document.querySelector('#formInvite');
+			const emailError = document.querySelector('.sendEmail.error');
+			const textAreaValue = document.querySelector('#userMessage');
+			const emailValue = document.querySelector('#emailAdress');
+
+			emailForm.addEventListener('submit', async (e) => {
+				e.preventDefault();
+				// reset errors
+				// emailError.textContent = '';
+
+				// get values
+				console.log(emailValue.value)
+				console.log(textAreaValue.value)
+
+				const email = emailValue.value;
+				const userMessage = textAreaValue.value;
+				try {
+					const res = await fetch('/send', {
+						method: 'POST',
+						body: JSON.stringify({ email: email, message: userMessage }),
+						headers: {
+							'Content-Type': 'application/json',
+							'Accept': 'application/json'
+						}
+					});
+					const data = await res.json();
+					console.log(data);
+					if (data.errors) {
+						emailError.textContent = data.errors.email;
+					}
+					location.assign('/success');
+				}
+				catch (err) {
+					console.log(err);
+				}
+			});
+		</script>
+
+
 
 	</main>
 

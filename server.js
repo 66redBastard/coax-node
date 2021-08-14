@@ -8,6 +8,7 @@ const mongoDB = require("./config/db");
 
 const authRoutes = require("./routes/auth.routes");
 const uploadRoutes = require("./routes/upload.routes");
+const sendEmailRoutes = require("./routes/sendEmail.router");
 const verifyToken = require("./middleware/auth");
 const cookieParser = require("cookie-parser");
 
@@ -29,8 +30,10 @@ app.get("/", (req, res) => {
 app.get("/profile", verifyToken, (req, res) => res.render("profile"));
 app.get("/library", verifyToken, (req, res) => res.render("library"));
 app.get("/uploadFile", verifyToken, (req, res) => res.render("library"));
+// app.get("/send", verifyToken, (req, res) => res.render("success"));
 app.use(authRoutes);
 app.use(uploadRoutes);
+app.use(sendEmailRoutes);
 
 // server
 const port =
