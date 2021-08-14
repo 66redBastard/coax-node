@@ -1,0 +1,19 @@
+<footer class="mt-5 mx-auto" style="width: 420px">Copyright 2021(c) 66redbastard
+</footer>
+
+</body>
+<script>
+    async function userLogOut() {
+        const logoutBtn = document.querySelector("logOutBtn");
+        try {
+            const res = await fetch('/logout', { method: "GET" });
+            const data = await res.json();
+            console.log(data);
+            location.assign('/');
+        } catch (err) {
+            console.log(err)
+        }
+    }
+</script>
+
+</html>

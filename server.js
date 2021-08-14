@@ -1,36 +1,38 @@
 require("rootpath")();
 require("dotenv").config();
+
 const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoDB = require("./config/db");
-// const Pizza = require("./models/Pizza");
-const User = require("./models/User");
-const multer = require("multer");
-const upload = multer();
-const AWS = require("aws-sdk");
-const routes = require("./routes/routes");
+
+const authRoutes = require("./routes/auth.routes");
+const uploadRoutes = require("./routes/upload.routes");
+const verifyToken = require("./middleware/auth");
+const cookieParser = require("cookie-parser");
 
 app.use(cors());
-app.use(express.json()); //Used to parse JSON bodies. Body parser is deprecated
-app.use(express.urlencoded({ extended: true })); //Parse URL-encoded bodies
+app.use(express.json()); // Used to parse JSON bodies. Body parser is deprecated
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+app.use(express.static(__dirname + "/public"));
 
+// View engine
+app.set("view engine", "ejs");
+
+// api routes
 app.get("/", (req, res) => {
-  res.send({ message: "Hello WWW!" });
-  res.end(console.log("get req end"));
+  res.render("home");
+  res.end(console.log("render home"));
 });
 
-// const createPizza = async function () {
-//   const newPizza = await Pizza.create({
-//     id: 1,
-//     name: "mongo",
-//     vegan: false,
-//     stuff: ["becon", "pineapple", "cheese"],
-//   });
-// };
+app.get("/profile", verifyToken, (req, res) => res.render("profile"));
+app.get("/library", verifyToken, (req, res) => res.render("library"));
+app.get("/uploadFile", verifyToken, (req, res) => res.render("library"));
+app.use(authRoutes);
+app.use(uploadRoutes);
 
-// createPizza();
-
+// server
 const port =
   process.env.NODE_ENV === "production"
     ? process.env.PORT || 80
