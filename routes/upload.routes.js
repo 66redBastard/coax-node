@@ -40,23 +40,22 @@ uploadRoutes.post(
       const result = await s3.upload(uploadParams).promise();
       console.log(result);
 
-      // const userFiles = await File.findOne({ user });
-      await File.create({
-        name: decodedToken.email,
-        filePath: [result.Location],
-        user: decodedToken.user_id,
-      });
+      const userFiles = await File.findOne({ user: decodedToken.user_id });
 
-      // if (!userFiles) {
-
-      // } else {
-      //   File.updateOne(
-      //     { user: decodedToken.user_id },
-      //     { $push: { filePath: result.file.Location } }
-      //   );
-      // }
-
-      return res.status(200).render("library");
+      if (!userFiles) {
+        const uploadFirstFile = await File.create({
+          name: decodedToken.email,
+          filePath: [result.Location],
+          user: decodedToken.user_id,
+        });
+        return res.status(200).render("library");
+      } else {
+        const uploadAnotherFile = await File.updateOne(
+          { user: decodedToken.user_id },
+          { $push: { filePath: result.Location } }
+        );
+        return res.status(200).render("library");
+      }
     } catch (err) {
       console.log(err);
       return res.status(400).json({ err });
