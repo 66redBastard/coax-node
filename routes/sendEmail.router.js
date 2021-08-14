@@ -1,15 +1,15 @@
 const { Router } = require("express");
 
 const mailjet = require("node-mailjet").connect(
-  "7ad5a0bb322e8009212376b5b9e8f8bf",
-  "57f76420e93d28afbf9d34ffb273d49b"
+  process.env.MAILJET_PUBLIC_KEY,
+  process.env.MAILJET_PRIVATE_KEY
 );
 
 const sendEmailRoutes = Router();
 
 sendEmailRoutes.post("/send", async (req, res) => {
   console.log(req.body);
-  const requestData = mailjet.post("/send", { version: "v3.1" }).request({
+  const requestData = mailjet.post("send", { version: "v3.1" }).request({
     Messages: [
       {
         From: {
@@ -31,7 +31,8 @@ sendEmailRoutes.post("/send", async (req, res) => {
     ],
   });
   try {
-    await requestData;
+    let response = await requestData;
+    console.log(response);
     return res.status(200).render("success");
   } catch (err) {
     console.log("mailerror", err);
