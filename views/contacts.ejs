@@ -1,0 +1,59 @@
+<%- include('partials/header'); -%>
+    <main class="mx-auto mt-5" style="width: 420px">
+        <div class="headings d-flex justify-content-between ">
+            <h2>
+                Contacts
+            </h2>
+
+            <h3 class="mt-5">Update Contacts List</h3>
+            <!-- <form id="formGet">
+                <div class="mb-3">
+                    <label for="newContactEmail" class="form-label">Email
+                        address</label>
+                    <input id="contactEmail" type="email" class="form-control"
+                        placeholder="name@example.com">
+                    <div class="sendEmail error"></div>
+                    <div class="mb-3">
+                        <input id="contactId" type="contactId" name="ContactId"
+                            class="form-control"
+                            value="<%= collectionUser._id %>"
+                            readonly="readonly" />
+                    </div>
+                    <div class="mb-3">
+                        <input id="profileId" type="profileId" name="profileId"
+                            class="form-control"
+                            value="<%= collectionUser._id %>"
+                            readonly="readonly" />
+                    </div>
+
+                </div>
+                <div class="mb-3">
+
+                </div>
+                <button class="btn btn-outline-primary"
+                    onclick="updateContactsList()">Invite</button>
+            </form> -->
+
+        </div>
+    </main>
+    <script>
+        const updateContactsList = async () => {
+            // const profileId = document.getElementById("userId").value;
+
+            const newContactEmail = document.getElementById("contactEmail").value;
+            const newContactId = document.getElementById("contactId").value;
+            const updatedList = await fetch('/signup', {
+                method: 'PUT',
+                body: JSON.stringify({
+                    user_id: userId,
+                    first_name: userFirstName,
+                    last_name: userLastName,
+                    email: userNewEmail
+                }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+            console.log(result)
+        }
+    </script>
+
+    <%- include('partials/footer'); -%>

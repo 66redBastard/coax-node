@@ -10,6 +10,7 @@ const User = require("./models/User");
 const authRoutes = require("./routes/auth.routes");
 const uploadRoutes = require("./routes/upload.routes");
 const sendEmailRoutes = require("./routes/sendEmail.router");
+const contactRoutes = require("./routes/contact.router");
 const verifyToken = require("./middleware/auth");
 const cookieParser = require("cookie-parser");
 
@@ -44,6 +45,7 @@ app.get("/profile", verifyToken, async (req, res) => {
 app.use(authRoutes);
 app.use(uploadRoutes);
 app.use(sendEmailRoutes);
+app.use(contactRoutes);
 
 // server
 const port =

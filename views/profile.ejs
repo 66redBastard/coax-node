@@ -7,6 +7,8 @@
 			</h2>
 
 			<nav>
+				<!-- <a id="myContactsRoute" class="btn btn-outline-dark"
+					href="/contacts">Contacts</a> -->
 				<a id="myFilesRoute" class="btn btn-dark" href="/library">View my
 					files</a>
 			</nav>
@@ -30,7 +32,7 @@
 				<input id="userId" name="userId" class="form-control"
 					value="<%= collectionUser._id %>" readonly="readonly" />
 			</div>
-			<button class="btn btn-primary mt-3"
+			<button class="btn btn-outline-primary mt-3"
 				onclick="updateData()">Update</button>
 		</form>
 
@@ -48,10 +50,10 @@
 				<input class="form-control" type="file" id="formFileMultiple"
 					name="myFiles" multiple>
 			</div> -->
-			<button type="submit" class="btn btn-primary mt-1">Submit</button>
+			<button type="submit" class="btn btn-outline-primary mt-1">Submit</button>
 		</form>
-		<h3 class="mt-5">Invite Some Dude</h3>
 
+		<h3 class="mt-5">Invite Some Dude</h3>
 		<form id="formInvite">
 			<div class="mb-3">
 				<label for="emailAdress" class="form-label">Email
@@ -66,7 +68,7 @@
 				<textarea type="textarea" class="form-control" id="userMessage"
 					rows="3"></textarea>
 			</div>
-			<button type="submit" class="btn btn-primary">Invite</button>
+			<button type="submit" class="btn btn-outline-primary">Invite</button>
 		</form>
 
 		<script>
