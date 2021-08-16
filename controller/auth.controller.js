@@ -91,6 +91,7 @@ module.exports.signupPost = async (req, res) => {
 };
 
 module.exports.loginPost = async (req, res) => {
+  // console.log(req);
   try {
     // Get user input
     const { email, password } = req.body;
@@ -110,18 +111,31 @@ module.exports.loginPost = async (req, res) => {
 
       // save user token
       user.token = token;
-      // user
 
-      return res
-        .cookie("jwt", token, { maxAge: 1000 * 60 * 60 })
-        .status(200)
-        .json(user);
+      // console.log(user);
+      return res.cookie("jwt", token, { maxAge: 1000 * 60 * 60 }).send(user);
     }
     return res.status(400).send("Invalid Credentials");
   } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
   }
+};
+
+module.exports.signupPut = async (req, res) => {
+  console.log(req.body);
+  const { user_id, email } = req.body;
+  const query = { _id: user_id };
+  const update = {
+    $set: {
+      email: email,
+    },
+  };
+  const options = { returnNewDocument: true };
+
+  const user = await User.findOneAndUpdate(query, update, options);
+
+  return res.status(200).send(user);
 };
 
 module.exports.logoutGet = (req, res) => {

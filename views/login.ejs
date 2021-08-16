@@ -23,6 +23,7 @@
     const form = document.querySelector('form');
     const emailError = document.querySelector('.email.error');
     const passwordError = document.querySelector('.password.error');
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       // reset errors
@@ -45,7 +46,6 @@
           emailError.textContent = data.errors.email;
           passwordError.textContent = data.errors.password;
         } else {
-          await fetch
           location.assign('/profile');
         }
         // const redirect = await fetch('/login', {

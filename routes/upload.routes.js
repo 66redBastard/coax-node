@@ -20,7 +20,7 @@ const uploadRoutes = Router();
 const getUserData = (req) => {
   const token = req.headers.cookie.substring(4);
   const decodedToken = jwt.verify(token, secretToken);
-  // console.log("decoded", decodedToken);
+  console.log("decoded", decodedToken);
   return decodedToken;
 };
 
@@ -40,7 +40,7 @@ uploadRoutes.post(
 
     try {
       const result = await s3.upload(uploadParams).promise();
-      console.log(result);
+      // console.log(result);
 
       const userFiles = await File.findOne({ user: userData.user_id });
 

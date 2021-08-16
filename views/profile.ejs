@@ -5,10 +5,17 @@
 			<h2>
 				Profile
 			</h2>
-
-			<p>
-				<%= collectionUser.email %>
-			</p>
+			<form method="put">
+				<div class="mb-3">
+					<input type="email" id="oldEmail" name="oldEmail" class="form-control"
+						value="<%= collectionUser.email %>" />
+				</div>
+				<div class="mb-3">
+					<input id="userId" name="userId" class="form-control"
+						value="<%= collectionUser.user_id %>" readonly="readonly" />
+				</div>
+				<button onclick="updateData()">Update</button>
+			</form>
 
 
 		</div>
@@ -51,6 +58,20 @@
 		</form>
 
 		<script>
+
+			const updateData = async () => {
+				const userId = document.getElementById("userId").value;
+				const userNewEmail = document.getElementById("oldEmail").value;
+				const result = await fetch('/signup', {
+					method: 'PUT',
+					body: JSON.stringify({
+						user_id: userId,
+						email: userNewEmail
+					}),
+					headers: { 'Content-Type': 'application/json' }
+				});
+				console.log(result)
+			}
 			const emailForm = document.querySelector('#formInvite');
 			const emailError = document.querySelector('.sendEmail.error');
 			const textAreaValue = document.querySelector('#userMessage');

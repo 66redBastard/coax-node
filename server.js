@@ -28,7 +28,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/profile", verifyToken, (req, res) => {
-  console.log("profile response === ", res.req.user);
+  console.log("profile response === ", req);
   res.render("profile", { collectionUser: res.req.user });
 });
 // app.get("/library", verifyToken, (req, res) => {
