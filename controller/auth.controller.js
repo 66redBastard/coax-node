@@ -124,10 +124,12 @@ module.exports.loginPost = async (req, res) => {
 
 module.exports.signupPut = async (req, res) => {
   console.log(req.body);
-  const { user_id, email } = req.body;
+  const { user_id, first_name, last_name, email } = req.body;
   const query = { _id: user_id };
   const update = {
     $set: {
+      first_name: first_name,
+      last_name: last_name,
       email: email,
     },
   };

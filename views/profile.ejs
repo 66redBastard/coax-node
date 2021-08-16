@@ -1,27 +1,39 @@
 <%- include('partials/header'); -%>
 
 	<main class="mx-auto mt-5" style="width: 420px">
-		<div class="headings">
+		<div class="headings d-flex justify-content-between ">
 			<h2>
 				Profile
 			</h2>
-			<form method="put">
-				<div class="mb-3">
-					<input type="email" id="oldEmail" name="oldEmail" class="form-control"
-						value="<%= collectionUser.email %>" />
-				</div>
-				<div class="mb-3">
-					<input id="userId" name="userId" class="form-control"
-						value="<%= collectionUser.user_id %>" readonly="readonly" />
-				</div>
-				<button onclick="updateData()">Update</button>
-			</form>
 
-
+			<nav>
+				<a id="myFilesRoute" class="btn btn-dark" href="/library">View my
+					files</a>
+			</nav>
 		</div>
-		<nav>
-			<a id="myFilesRoute" href="/library">View my files</a>
-		</nav>
+
+		<h3 class="mt-5">Update Profile Email</h3>
+		<form method="put" class="mt-3 mb-3">
+			<div class="mb-3 mt-3">
+				<input type="first_name" id="oldFirstName" name="oldFirstName"
+					class="form-control" value="<%= collectionUser.first_name %>" />
+			</div>
+			<div class="mb-3 mt-3">
+				<input type="last_name" id="oldLastName" name="oldLastName"
+					class="form-control" value="<%= collectionUser.last_name %>" />
+			</div>
+			<div class="mb-3 mt-3">
+				<input type="email" id="oldEmail" name="oldEmail" class="form-control"
+					value="<%= collectionUser.email %>" />
+			</div>
+			<div class="mb-3">
+				<input id="userId" name="userId" class="form-control"
+					value="<%= collectionUser._id %>" readonly="readonly" />
+			</div>
+			<button class="btn btn-primary mt-3"
+				onclick="updateData()">Update</button>
+		</form>
+
 		<h3 class="mt-5">Upload File</h3>
 		<form id="uploadForm" class="form-contaier" method="post"
 			enctype="multipart/form-data" action="/uploadFile">
@@ -61,17 +73,22 @@
 
 			const updateData = async () => {
 				const userId = document.getElementById("userId").value;
+				const userFirstName = document.getElementById("oldFirstName").value;
+				const userLastName = document.getElementById("oldLastName").value;
 				const userNewEmail = document.getElementById("oldEmail").value;
 				const result = await fetch('/signup', {
 					method: 'PUT',
 					body: JSON.stringify({
 						user_id: userId,
+						first_name: userFirstName,
+						last_name: userLastName,
 						email: userNewEmail
 					}),
 					headers: { 'Content-Type': 'application/json' }
 				});
 				console.log(result)
 			}
+
 			const emailForm = document.querySelector('#formInvite');
 			const emailError = document.querySelector('.sendEmail.error');
 			const textAreaValue = document.querySelector('#userMessage');
@@ -102,6 +119,7 @@
 							'content-type': 'application/json; charset=UTF-8',
 						}
 					});
+					// PROBLEM: cant get respons from mail
 					// const data = await res.json();
 					// console.log(data);
 					// if (data.errors) {
