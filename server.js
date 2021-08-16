@@ -5,9 +5,12 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoDB = require("./config/db");
+const User = require("./models/User");
 
 const authRoutes = require("./routes/auth.routes");
 const uploadRoutes = require("./routes/upload.routes");
+const sendEmailRoutes = require("./routes/sendEmail.router");
+const contactRoutes = require("./routes/contact.router");
 const verifyToken = require("./middleware/auth");
 const cookieParser = require("cookie-parser");
 
@@ -26,11 +29,23 @@ app.get("/", (req, res) => {
   res.end(console.log("render home"));
 });
 
-app.get("/profile", verifyToken, (req, res) => res.render("profile"));
-app.get("/library", verifyToken, (req, res) => res.render("library"));
-app.get("/uploadFile", verifyToken, (req, res) => res.render("library"));
+app.get("/profile", verifyToken, async (req, res) => {
+  // console.log("profile response === ", res);
+  const userID = res.req.user.user_id;
+  const userData = await User.findOne({ _id: userID });
+  console.log("data ====", userData);
+  res.render("profile", { collectionUser: userData });
+});
+// app.get("/library", verifyToken, (req, res) => {
+//   console.log("response get library === ", res);
+//   res.render("library", { collection: res });
+// });
+// app.get("/uploadFile", verifyToken, (req, res) => res.render("library"));
+// app.get("/send", verifyToken, (req, res) => res.render("success"));
 app.use(authRoutes);
 app.use(uploadRoutes);
+app.use(sendEmailRoutes);
+app.use(contactRoutes);
 
 // server
 const port =
