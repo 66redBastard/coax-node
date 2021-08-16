@@ -5,9 +5,15 @@
 			<h2>
 				Profile
 			</h2>
+
+			<p>
+				<%= collectionUser.email %>
+			</p>
+
+
 		</div>
 		<nav>
-			<a href="/library">View my files</a>
+			<a id="myFilesRoute" href="/library">View my files</a>
 		</nav>
 		<h3 class="mt-5">Upload File</h3>
 		<form id="uploadForm" class="form-contaier" method="post"
@@ -27,7 +33,7 @@
 		</form>
 		<h3 class="mt-5">Invite Some Dude</h3>
 
-		<form id="formInvite" action="/send" method="post">
+		<form id="formInvite">
 			<div class="mb-3">
 				<label for="emailAdress" class="form-label">Email
 					address</label>
@@ -50,10 +56,14 @@
 			const textAreaValue = document.querySelector('#userMessage');
 			const emailValue = document.querySelector('#emailAdress');
 
+			// const libraryRoute = document.querySelector('#myFilesRoute')
+
+			// libraryRoute.addEventListener('click', async (e) => {
+			// 	await fetch('/library')
+			// }, false);
+
 			emailForm.addEventListener('submit', async (e) => {
 				e.preventDefault();
-				// reset errors
-				// emailError.textContent = '';
 
 				// get values
 				console.log(emailValue.value)
@@ -61,21 +71,22 @@
 
 				const email = emailValue.value;
 				const userMessage = textAreaValue.value;
+
 				try {
 					const res = await fetch('/send', {
 						method: 'POST',
 						body: JSON.stringify({ email: email, message: userMessage }),
 						headers: {
-							'Content-Type': 'application/json',
-							'Accept': 'application/json'
+							'content-length': '288',
+							'content-type': 'application/json; charset=UTF-8',
 						}
 					});
-					const data = await res.json();
-					console.log(data);
-					if (data.errors) {
-						emailError.textContent = data.errors.email;
-					}
-					location.assign('/success');
+					// const data = await res.json();
+					// console.log(data);
+					// if (data.errors) {
+					// 	emailError.textContent = data.errors.email;
+					// }
+					// location.assign('/ggg');
 				}
 				catch (err) {
 					console.log(err);

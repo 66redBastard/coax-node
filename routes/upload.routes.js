@@ -20,7 +20,7 @@ const uploadRoutes = Router();
 const getUserData = (req) => {
   const token = req.headers.cookie.substring(4);
   const decodedToken = jwt.verify(token, secretToken);
-  console.log("decoded", decodedToken);
+  // console.log("decoded", decodedToken);
   return decodedToken;
 };
 
@@ -29,7 +29,7 @@ uploadRoutes.post(
   upload.single("uploadFile"),
   async (req, res) => {
     //   console.log(req.user); TODO: WHY dis NOT WORKIN
-    console.log(req.file);
+    // console.log(req.file);
     const userData = getUserData(req);
     const fileSream = fs.createReadStream(req.file.path);
     const uploadParams = {
@@ -66,7 +66,7 @@ uploadRoutes.post(
           }
         );
         const filesCollection = await File.findOne({ user: userData.user_id });
-        console.log("show collection: ", filesCollection);
+        // console.log("show collection: ", filesCollection);
         return res.status(200).render("library", {
           collection: filesCollection,
         });
@@ -78,9 +78,14 @@ uploadRoutes.post(
   }
 );
 
-uploadRoutes.get("/uploadFile", async (req, res) => {
+// add auth middleware
+uploadRoutes.get("/library", async (req, res) => {
   const userData = getUserData(req);
-  const filesCollection = await File.findOne({ user: userData.user_id });
+  const filesCollection = await File.findOne({ user: userData.user_id }); // duplicated code needs refactor
+  console.log("get file data === ", filesCollection);
+  return res.status(200).render("library", {
+    collection: filesCollection,
+  });
 });
 
 // uploadRoutes.post("/uploadFile", upload.multiple("uploadFile"), (req, res) => {

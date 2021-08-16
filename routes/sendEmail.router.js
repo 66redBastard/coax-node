@@ -25,15 +25,15 @@ sendEmailRoutes.post("/send", async (req, res) => {
         Subject: "Greetings from Mailjet.",
         TextPart: req.body.message,
         HTMLPart:
-          "<h3>Dear passenger 1, welcome to <a href='https://www.mailjet.com/'>Mailjet</a>!</h3>",
+          "<h3>Dear passenger 1, welcome to <a href='http://localhost:4200/signup'>FILE SHARE app</a>!</h3> <p>`${req.body.message}`",
         CustomID: "AppGettingStartedTest",
       },
     ],
   });
   try {
     let response = await requestData;
-    console.log(response);
-    return res.status(200).render("success");
+    console.log("response === ", response);
+    return res.render("success");
   } catch (err) {
     console.log("mailerror", err);
     return res.status(404).render("error");

@@ -27,9 +27,15 @@ app.get("/", (req, res) => {
   res.end(console.log("render home"));
 });
 
-app.get("/profile", verifyToken, (req, res) => res.render("profile"));
-app.get("/library", verifyToken, (req, res) => res.render("library"));
-app.get("/uploadFile", verifyToken, (req, res) => res.render("library"));
+app.get("/profile", verifyToken, (req, res) => {
+  console.log("profile response === ", res.req.user);
+  res.render("profile", { collectionUser: res.req.user });
+});
+// app.get("/library", verifyToken, (req, res) => {
+//   console.log("response get library === ", res);
+//   res.render("library", { collection: res });
+// });
+// app.get("/uploadFile", verifyToken, (req, res) => res.render("library"));
 // app.get("/send", verifyToken, (req, res) => res.render("success"));
 app.use(authRoutes);
 app.use(uploadRoutes);
